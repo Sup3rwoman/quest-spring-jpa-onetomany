@@ -1,9 +1,6 @@
 package com.wildcodeschool.wildandwizard.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -19,7 +16,26 @@ public class Wizard {
     private String biography;
     private boolean muggle;
 
+    //Many Wizards can be enrolled in one School
+    //FetchType.LAZY: relationships are only loaded when necessary, executed when getWizards method is called
+    //CascadeType.REFRESH: Updates the entity when a relationship is changed or deleted, School will not be deleted, when the wizard is deleted
+    //optional = false: it will not be possible to insert a null value
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "school_id", nullable = false)
+    private School school;
+
     public Wizard() {
+    }
+
+    public Wizard(Long id, String firstName, String lastName, Date birthday, String birthPlace, String biography, boolean muggle, School school) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.birthPlace = birthPlace;
+        this.biography = biography;
+        this.muggle = muggle;
+        this.school = school;
     }
 
     public Long getId() {
@@ -76,5 +92,13 @@ public class Wizard {
 
     public void setMuggle(boolean muggle) {
         this.muggle = muggle;
+    }
+
+    public School getSchool() {
+        return school;
+    }
+
+    public void setSchool(School school) {
+        this.school = school;
     }
 }
