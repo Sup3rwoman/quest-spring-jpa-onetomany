@@ -21,7 +21,7 @@ public class Wizard {
     //CascadeType.REFRESH: Updates the entity when a relationship is changed or deleted, School will not be deleted, when the wizard is deleted
     //optional = false: it will not be possible to insert a null value
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "school_id", nullable = false)
+    @JoinColumn(name = "school_id", nullable = true)
     private School school;
 
     public Wizard() {
